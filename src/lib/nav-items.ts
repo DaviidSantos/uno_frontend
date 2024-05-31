@@ -7,7 +7,7 @@ export const navitems = [
         key: "uno-navlink-01",
         title: "Cadastar Solicitante",
         description: "Cadastre os dados de um novo cliente do laboratório",
-        href: "/solicitante/cadastar"
+        href: "/solicitante/cadastrar"
       },
       {
         key: "uno-navlink-02",
