@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import CadastrarSolicitante from "../pages/solicitantes/CadastrarSolicitante";
+import ListarSolicitantes from "../pages/solicitantes/ListarSolicitantes";
 
 export const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ export const router = createBrowserRouter([
       {
         path: "/solicitante/cadastrar",
         element: <CadastrarSolicitante />
+      },
+      {
+        path: "/solicitante/listar",
+        element: <ListarSolicitantes />
       }
     ]
   }
