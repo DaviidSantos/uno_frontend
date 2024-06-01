@@ -3,6 +3,7 @@ import App from "../App";
 import CadastrarSolicitante from "../pages/solicitantes/CadastrarSolicitante";
 import ListarSolicitantes from "../pages/solicitantes/ListarSolicitantes";
 import DetalhesSolicitante from "../pages/solicitantes/DetalhesSolicitante";
+import CadastrarSolicitacaoAnalise from "../pages/solicitacaoAnalise/CadastrarSolicitacaoAnalise";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "/solicitante/:cnpj",
         element: <DetalhesSolicitante />
+      },
+      {
+        path: "/solicitacao-analise/cadastrar",
+        element: <CadastrarSolicitacaoAnalise />
       }
     ]
   }
