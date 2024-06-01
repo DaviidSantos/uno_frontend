@@ -17,10 +17,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table"
-import { Button } from "../../components/ui/button"
+} from "../../../components/ui/table"
+import { Button } from "../../../components/ui/button"
 import { useState } from "react"
-import { Input } from "../../components/ui/input"
+import { Input } from "../../../components/ui/input"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

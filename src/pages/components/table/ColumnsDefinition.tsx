@@ -61,3 +61,35 @@ export const solicitanteTableColumns: ColumnDef<ISolicitante>[] = [
     }
   }
 ]
+
+export const solicitacaoAnaliseTableColumns: ColumnDef<ISolicitacaoAnalise>[] = [
+  {
+    accessorKey: "idSa",
+    header: "Id SA"
+  },
+  {
+    accessorKey: "nomeProjeto",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Projeto
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    }
+  },
+  {
+    accessorKey: "tipoAnalise",
+    header: "Tipo de Análise"
+  },
+  {
+    accessorKey: "prazoAcordado",
+    header: "Prazo Acordado"
+  },
+  {
+    accessorKey: "conclusaoProjeto",
+    header: "Conclusao Projeto"
+  }
+]

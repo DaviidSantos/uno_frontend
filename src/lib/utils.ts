@@ -6,8 +6,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const parseCnpj = (input: string): string => {
-  // Remove all non-numeric characters using a regular expression
   const numericOnly = input.replace(/\D/g, '');
 
   return numericOnly;
+}
+
+export const parseStringToCnpj = (input: string): string => {
+  const numbersOnly = input.replace(/\D/g, '');
+  const formattedString = numbersOnly.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+
+  return formattedString;
 }

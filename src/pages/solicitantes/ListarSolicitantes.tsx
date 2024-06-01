@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { DataTable } from "../components/DataTable";
+import { DataTable } from "../components/table/DataTable";
 import { solicitanteTableColumns } from "../components/table/ColumnsDefinition";
 
 const ListarSolicitantes = () => {
