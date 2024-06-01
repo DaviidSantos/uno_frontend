@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { DataTable } from "../components/table/DataTable";
 import { solicitanteTableColumns } from "../components/table/ColumnsDefinition";
+import Heading from "../../components/Heading";
 
 const ListarSolicitantes = () => {
   const [solicitantes, setSolicitantes] = useState<ISolicitante[] | undefined>(
@@ -23,14 +24,7 @@ const ListarSolicitantes = () => {
   return (
     solicitantes && (
       <div className="container max-w-screen-2xl py-10">
-        <div className="py-2 border-b border-b-zinc-200 mb-8">
-          <h1 className="text-3xl font-black text-zinc-800 tracking-tight">
-            Solicitantes
-          </h1>
-          <p className="text-zinc-600 text-sm">
-            Lista de todos os solicitantes cadastrados
-          </p>
-        </div>
+        <Heading title="Solicitantes" description="Lista de todos os solicitantes cadastrados" />
 
         <DataTable columns={solicitanteTableColumns} data={solicitantes} filterPlaceholder="Filtrar por nome do cliente" filterColumn="nome" />
       </div>

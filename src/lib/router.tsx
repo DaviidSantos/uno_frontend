@@ -4,6 +4,7 @@ import CadastrarSolicitante from "../pages/solicitantes/CadastrarSolicitante";
 import ListarSolicitantes from "../pages/solicitantes/ListarSolicitantes";
 import DetalhesSolicitante from "../pages/solicitantes/DetalhesSolicitante";
 import CadastrarSolicitacaoAnalise from "../pages/solicitacaoAnalise/CadastrarSolicitacaoAnalise";
+import ListarSolicitacoesAnalise from "../pages/solicitacaoAnalise/ListarSolicitacoesAnalise";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: "/solicitacao-analise/cadastrar",
         element: <CadastrarSolicitacaoAnalise />
+      },
+      {
+        path: "/solicitacao-analise/listar",
+        element: <ListarSolicitacoesAnalise />
       }
     ]
   }

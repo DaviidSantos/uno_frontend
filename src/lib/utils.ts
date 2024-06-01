@@ -17,3 +17,21 @@ export const parseStringToCnpj = (input: string): string => {
 
   return formattedString;
 }
+
+export const parseIdSaToUnifiedFormat = (input: string): string => {
+  const cleanedInput = input.replace(/[^A-Za-z0-9/]/g, '');
+  const parts = cleanedInput.split('/');
+
+  if (parts.length === 1) return cleanedInput;
+
+  const countryCode = parts[0].replace('-', '');
+  const year = parts[1];
+  return `${countryCode}${year}`;
+}
+
+export const parseIdSaToOriginalFormat = (input: string): string => {
+  const countryCode = input.substring(0, 2);
+  const year = input.substring(2);
+
+  return `${countryCode}-${year.substring(0, 2)}/${year.substring(2)}`;
+}

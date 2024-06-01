@@ -4,7 +4,7 @@ import { ArrowUpDown, Eye, MoreHorizontal } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../../../components/ui/dropdown-menu"
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 import { Link } from "react-router-dom"
-import { parseCnpj } from "../../../lib/utils"
+import { parseCnpj, parseIdSaToUnifiedFormat } from "../../../lib/utils"
 
 export const solicitanteTableColumns: ColumnDef<ISolicitante>[] = [
   {
@@ -91,5 +91,33 @@ export const solicitacaoAnaliseTableColumns: ColumnDef<ISolicitacaoAnalise>[] = 
   {
     accessorKey: "conclusaoProjeto",
     header: "Conclusao Projeto"
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const solicitacaoAnalise = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Abrir menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="px-2 py-2">
+              <Link to={`/solicitacao-analise/${parseIdSaToUnifiedFormat(solicitacaoAnalise.idSa!)}`} className="flex items-center gap-2 text-zinc-600 hover:text-zinc-800">
+                <Eye className="h-4 w-4" />
+                <span className="text-xs font-bold">
+                  Ver mais
+                </span>
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
   }
+
 ]
