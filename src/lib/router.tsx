@@ -5,6 +5,7 @@ import ListarSolicitantes from "../pages/solicitantes/ListarSolicitantes";
 import DetalhesSolicitante from "../pages/solicitantes/DetalhesSolicitante";
 import CadastrarSolicitacaoAnalise from "../pages/solicitacaoAnalise/CadastrarSolicitacaoAnalise";
 import ListarSolicitacoesAnalise from "../pages/solicitacaoAnalise/ListarSolicitacoesAnalise";
+import DetalhesSolicitacaoAnalise from "../pages/solicitacaoAnalise/DetalhesSolicitacaoAnalise";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/solicitacao-analise/listar",
         element: <ListarSolicitacoesAnalise />
+      },
+      {
+        path: "/solicitacao-analise/:idSa",
+        element: <DetalhesSolicitacaoAnalise />
       }
     ]
   }

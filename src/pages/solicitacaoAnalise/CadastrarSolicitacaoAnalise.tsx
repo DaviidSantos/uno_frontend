@@ -32,6 +32,7 @@ import {
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { Textarea } from "../../components/ui/textarea";
+import Heading from "../../components/Heading";
 
 const CadastrarSolicitacaoAnalise = () => {
   const { toast } = useToast();
@@ -73,7 +74,7 @@ const CadastrarSolicitacaoAnalise = () => {
   const cadastrar = async (data: z.infer<typeof solicitacaoAnaliseSchema>) => {
     try {
       const year = data.prazoAcordado.getFullYear();
-      const month = String(data.prazoAcordado.getMonth() + 1).padStart(2, "0"); // getMonth() retorna o mês de 0 a 11, então adicionamos 1
+      const month = String(data.prazoAcordado.getMonth() + 1).padStart(2, "0");
       const day = String(data.prazoAcordado.getDate()).padStart(2, "0");
 
       const solicitacaoAnalise: ISolicitacaoAnalise = {
@@ -121,17 +122,10 @@ const CadastrarSolicitacaoAnalise = () => {
 
   return (
     solicitantes && (
-      <div className="w-[1300px] mx-auto py-10">
-        <div className="py-2 border-b border-b-zinc-200 mb-8">
-          <h1 className="text-3xl font-black text-zinc-800 tracking-tight">
-            Solicitação de Análise
-          </h1>
-          <p className="text-zinc-600 text-sm">
-            Informe abaixo as informações de abertura para o novo projeto
-          </p>
-        </div>
+      <div className="container max-w-screen-2xl py-10">
+        <Heading title="Solicitação de Análise" description="Informe abaixo as informações de abertura do novo projeto" />
 
-        <div>
+        <div className="py-4">
           <Form {...form}>
             <form
               className="gap-8 grid grid-cols-2 h-fit"

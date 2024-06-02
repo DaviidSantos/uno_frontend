@@ -30,8 +30,8 @@ export const parseIdSaToUnifiedFormat = (input: string): string => {
 }
 
 export const parseIdSaToOriginalFormat = (input: string): string => {
-  const countryCode = input.substring(0, 2);
-  const year = input.substring(2);
+  const sa = input.substring(0, 2);
+  const code = input.substring(2);
 
-  return `${countryCode}-${year.substring(0, 2)}/${year.substring(2)}`;
+  return `${sa}-${code.substring(0, 4)}/${code.substring(4)}`;
 }

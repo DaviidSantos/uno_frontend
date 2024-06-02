@@ -19,3 +19,14 @@ interface ISolicitacaoAnalise {
   descricaoProjeto: string;
   solicitante: ISolicitante;
 }
+
+interface ILote {
+  id: string;
+  amostra: string;
+  notaFiscal: string;
+  dataEntrada: string;
+  dataValidade: string;
+  descricao: string;
+  quantidade: number;
+  solicitacaoAnalise: ISolicitacaoAnalise
+}

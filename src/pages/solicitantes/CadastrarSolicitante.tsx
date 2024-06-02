@@ -70,7 +70,7 @@ const CadastrarSolicitante = () => {
     <div className="container max-w-screen-2xl py-10">
       <Heading title="Cadastrar Solicitante" description="Informe abaixo os dados do novo cliente do laboratório" />
 
-      <div>
+      <div className="py-4">
         <Form {...form}>
           <form
             className="gap-8 grid grid-cols-2 h-fit"

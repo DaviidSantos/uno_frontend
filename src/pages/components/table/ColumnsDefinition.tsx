@@ -90,7 +90,14 @@ export const solicitacaoAnaliseTableColumns: ColumnDef<ISolicitacaoAnalise>[] = 
   },
   {
     accessorKey: "conclusaoProjeto",
-    header: "Conclusao Projeto"
+    header: "Conclusao Projeto",
+    cell: ({ row }) => {
+      const solicitacaoAnalise = row.original
+
+      return solicitacaoAnalise.conclusaoProjeto
+        ? solicitacaoAnalise.conclusaoProjeto
+        : "Não Finalizado"
+    }
   },
   {
     id: "actions",
@@ -120,4 +127,59 @@ export const solicitacaoAnaliseTableColumns: ColumnDef<ISolicitacaoAnalise>[] = 
     }
   }
 
+]
+
+export const loteTableColumns: ColumnDef<ILote>[] = [
+  {
+    accessorKey: "solicitacaoAnalise.idSa",
+    header: "Id Solicitação de Análise"
+  },
+  {
+    accessorKey: "amostra",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Amostra
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    }
+  },
+  {
+    accessorKey: "dataEntrada",
+    header: "Data de Entrada"
+  },
+  {
+    accessorKey: "quantidade",
+    header: "Quantidade"
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const lote = row.original
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Abrir menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="px-2 py-2">
+              <Link to={`/lote/${lote.id}`} className="flex items-center gap-2 text-zinc-600 hover:text-zinc-800">
+                <Eye className="h-4 w-4" />
+                <span className="text-xs font-bold">
+                  Ver mais
+                </span>
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
+  }
 ]
