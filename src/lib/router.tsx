@@ -6,6 +6,7 @@ import DetalhesSolicitante from "../pages/solicitantes/DetalhesSolicitante";
 import CadastrarSolicitacaoAnalise from "../pages/solicitacaoAnalise/CadastrarSolicitacaoAnalise";
 import ListarSolicitacoesAnalise from "../pages/solicitacaoAnalise/ListarSolicitacoesAnalise";
 import DetalhesSolicitacaoAnalise from "../pages/solicitacaoAnalise/DetalhesSolicitacaoAnalise";
+import DetalhesLote from "../pages/lotes/DetalhesLote";
 
 export const router = createBrowserRouter([
   {
@@ -14,28 +15,32 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/solicitante/cadastrar",
-        element: <CadastrarSolicitante />
+        element: <CadastrarSolicitante />,
       },
       {
         path: "/solicitante/listar",
-        element: <ListarSolicitantes />
+        element: <ListarSolicitantes />,
       },
       {
         path: "/solicitante/:cnpj",
-        element: <DetalhesSolicitante />
+        element: <DetalhesSolicitante />,
       },
       {
         path: "/solicitacao-analise/cadastrar",
-        element: <CadastrarSolicitacaoAnalise />
+        element: <CadastrarSolicitacaoAnalise />,
       },
       {
         path: "/solicitacao-analise/listar",
-        element: <ListarSolicitacoesAnalise />
+        element: <ListarSolicitacoesAnalise />,
       },
       {
         path: "/solicitacao-analise/:idSa",
-        element: <DetalhesSolicitacaoAnalise />
-      }
-    ]
-  }
-])
+        element: <DetalhesSolicitacaoAnalise />,
+      },
+      {
+        path: "/solicitacao-analise/:idSa/lote/:idLote",
+        element: <DetalhesLote />,
+      },
+    ],
+  },
+]);
