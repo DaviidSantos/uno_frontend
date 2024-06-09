@@ -28,5 +28,20 @@ interface ILote {
   dataValidade: string;
   descricao: string;
   quantidade: number;
-  solicitacaoAnalise: ISolicitacaoAnalise
+  solicitacaoAnalise: ISolicitacaoAnalise;
+}
+
+interface IAnalise {
+  id: string;
+  especificacao: number;
+  resultado: number;
+  unidade: string;
+  observacao?: string;
+  lote: ILote;
+  ensaio: IEnsaio;
+}
+
+interface IEnsaio {
+  id: string;
+  nome: string;
 }

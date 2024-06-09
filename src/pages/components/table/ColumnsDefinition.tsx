@@ -194,3 +194,51 @@ export const loteTableColumns: ColumnDef<ILote>[] = [
     },
   },
 ];
+
+export const analiseTableColumns: ColumnDef<IAnalise>[] = [
+  {
+    accessorKey: "id",
+    header: "Id Análise",
+  },
+  {
+    accessorKey: "lote.amostra",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amostra
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "especificacao",
+    header: "Especificação",
+    cell: ({ row }) => {
+      const analise = row.original;
+
+      return (
+        <p>
+          {analise.especificacao} {analise.unidade}
+        </p>
+      );
+    },
+  },
+
+  {
+    accessorKey: "resultado",
+    header: "Resultado",
+    cell: ({ row }) => {
+      const analise = row.original;
+
+      return (
+        <p>
+          {analise.resultado} {analise.unidade}
+        </p>
+      );
+    },
+  },
+];

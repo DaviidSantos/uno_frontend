@@ -3,13 +3,19 @@ import Heading from "../../components/Heading";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Label } from "../../components/ui/label";
+import { DataTable } from "../components/table/DataTable";
+import { analiseTableColumns } from "../components/table/ColumnsDefinition";
+import CadastrarAnalise from "./components/CadastrarAnalise";
 
 const DetalhesLote = () => {
   const [lote, setLote] = useState<ILote>();
+  const [analises, setAnalises] = useState<IAnalise[]>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { idLote } = useParams();
 
   useEffect(() => {
     fetchLote();
+    fetchAnalises();
   }, []);
 
   const fetchLote = async () => {
@@ -20,8 +26,17 @@ const DetalhesLote = () => {
     setLote(data);
   };
 
+  const fetchAnalises = async () => {
+    const { data } = await axios.get<IAnalise[]>(
+      `https://uno-api-pdre.onrender.com/api/v1/analise/${idLote}`
+    );
+
+    setAnalises(data);
+  };
+
   return (
-    lote && (
+    lote &&
+    analises && (
       <div className="container max-w-screen-2xl py-10">
         <Heading
           title="Lote"
@@ -88,7 +103,22 @@ const DetalhesLote = () => {
           </div>
         </div>
 
-        <Heading title="Analises" />
+        <div className="flex items-center justify-between">
+          <Heading title="Analises" />
+          <CadastrarAnalise
+            fetchAnalises={fetchAnalises}
+            fetchLote={fetchLote}
+            isOpen={isDialogOpen}
+            setIsOpen={setIsDialogOpen}
+            lote={idLote!}
+          />
+        </div>
+        <DataTable
+          columns={analiseTableColumns}
+          data={analises}
+          filterColumn="lote.amostra"
+          filterPlaceholder="Nome da amostra"
+        />
       </div>
     )
   );
