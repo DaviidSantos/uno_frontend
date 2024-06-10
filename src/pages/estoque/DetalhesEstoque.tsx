@@ -4,14 +4,15 @@ import { useParams } from "react-router-dom";
 import Heading from "../../components/Heading";
 import { DataTable } from "../components/table/DataTable";
 import { reagenteTableColumns } from "../components/table/ColumnsDefinition";
+import CadastrarReagente from "./components/CadastrarReagente";
 
 const DetalhesEstoque = () => {
   const [reagentes, setReagentes] = useState<IReagente[]>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { nome } = useParams();
 
   useEffect(() => {
     fetchReagentes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchReagentes = async () => {
@@ -25,7 +26,15 @@ const DetalhesEstoque = () => {
   return (
     reagentes && (
       <div className="container max-w-screen-2xl py-10">
-        <Heading title={`Reagentes presente no estoque ${nome}`} />
+        <div className="flex items-center justify-between">
+          <Heading title={`Reagentes presente no estoque ${nome}`} />
+          <CadastrarReagente
+            nomeEstoque={nome!}
+            fetchReagentes={fetchReagentes}
+            isOpen={isDialogOpen}
+            setIsOpen={setIsDialogOpen}
+          />
+        </div>
         <DataTable
           columns={reagenteTableColumns}
           data={reagentes}
