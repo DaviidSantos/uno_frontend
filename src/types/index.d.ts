@@ -50,3 +50,13 @@ interface IEstoque {
   id: string;
   nome: string;
 }
+
+interface IReagente {
+  id: string;
+  nome: string;
+  fornecedor: string;
+  descricao: string;
+  unidade: string;
+  quantidade: number;
+  estoque: IEstoque;
+}

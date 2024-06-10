@@ -9,6 +9,7 @@ import DetalhesSolicitacaoAnalise from "../pages/solicitacaoAnalise/DetalhesSoli
 import DetalhesLote from "../pages/lotes/DetalhesLote";
 import CadastrarEstoque from "../pages/estoque/CadastrarEstoque";
 import ListarEstoques from "../pages/estoque/ListarEstoques";
+import DetalhesEstoque from "../pages/estoque/DetalhesEstoque";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: "/estoque/listar",
         element: <ListarEstoques />,
+      },
+      {
+        path: "estoque/:nome",
+        element: <DetalhesEstoque />,
       },
     ],
   },

@@ -278,7 +278,73 @@ export const estoqueTableColumns: ColumnDef<IEstoque>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuItem className="px-2 py-2">
               <Link
-                to={`/estoque/${estoque.id}`}
+                to={`/estoque/${estoque.nome}`}
+                className="flex items-center gap-2 text-zinc-600 hover:text-zinc-800"
+              >
+                <Eye className="h-4 w-4" />
+                <span className="text-xs font-bold">Ver mais</span>
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
+
+export const reagenteTableColumns: ColumnDef<IReagente>[] = [
+  {
+    accessorKey: "id",
+    header: "Id do Reagente",
+  },
+  {
+    accessorKey: "nome",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Nome
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "fornecedor",
+    header: "Fornecedor",
+  },
+  {
+    accessorKey: "quantidade",
+    header: "Quantidade",
+    cell: ({ row }) => {
+      const reagente = row.original;
+
+      return (
+        <p>
+          {reagente.quantidade} {reagente.unidade}
+        </p>
+      );
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const estoque = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Abrir menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="px-2 py-2">
+              <Link
+                to={`/estoque/${estoque.nome}`}
                 className="flex items-center gap-2 text-zinc-600 hover:text-zinc-800"
               >
                 <Eye className="h-4 w-4" />
