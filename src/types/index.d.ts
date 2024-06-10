@@ -45,3 +45,8 @@ interface IEnsaio {
   id: string;
   nome: string;
 }
+
+interface IEstoque {
+  id: string;
+  nome: string;
+}

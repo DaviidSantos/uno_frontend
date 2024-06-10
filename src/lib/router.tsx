@@ -7,6 +7,7 @@ import CadastrarSolicitacaoAnalise from "../pages/solicitacaoAnalise/CadastrarSo
 import ListarSolicitacoesAnalise from "../pages/solicitacaoAnalise/ListarSolicitacoesAnalise";
 import DetalhesSolicitacaoAnalise from "../pages/solicitacaoAnalise/DetalhesSolicitacaoAnalise";
 import DetalhesLote from "../pages/lotes/DetalhesLote";
+import CadastrarEstoque from "../pages/estoque/CadastrarEstoque";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: "/solicitacao-analise/:idSa/lote/:idLote",
         element: <DetalhesLote />,
+      },
+      {
+        path: "/estoque/cadastrar",
+        element: <CadastrarEstoque />,
       },
     ],
   },
