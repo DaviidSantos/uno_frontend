@@ -9,7 +9,7 @@ import CadastrarAnalise from "./components/CadastrarAnalise";
 
 const DetalhesLote = () => {
   const [lote, setLote] = useState<ILote>();
-  const [analises, setAnalises] = useState<IAnalise[]>();
+  const [analises, setAnalises] = useState<IAnalise[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { idLote } = useParams();
 
@@ -29,6 +29,11 @@ const DetalhesLote = () => {
   const fetchAnalises = async () => {
     const { data } = await axios.get<IAnalise[]>(
       `https://uno-api-pdre.onrender.com/api/v1/analise/${idLote}`
+    );
+    console.log(
+      await axios.get<IAnalise[]>(
+        `https://uno-api-pdre.onrender.com/api/v1/analise/${idLote}`
+      )
     );
 
     setAnalises(data);

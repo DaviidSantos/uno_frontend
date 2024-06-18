@@ -49,14 +49,22 @@ interface IEnsaio {
 interface IEstoque {
   id: string;
   nome: string;
+  solicitante: ISolicitante;
 }
 
 interface IReagente {
   id: string;
   nome: string;
+  dataValidade: string;
   fornecedor: string;
   descricao: string;
   unidade: string;
   quantidade: number;
   estoque: IEstoque;
+}
+
+interface IReagenteAnalise {
+  analise_id: string;
+  reagente_id: string;
+  quantidade: number;
 }

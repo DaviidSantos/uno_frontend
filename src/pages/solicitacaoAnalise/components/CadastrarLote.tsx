@@ -2,11 +2,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { date, z } from "zod";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../../components/ui/dialog";
 import { CalendarIcon, Plus } from "lucide-react";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../components/ui/popover";
 import { Button } from "../../../components/ui/button";
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "../../../components/ui/calendar";
@@ -17,13 +35,18 @@ import axios, { AxiosError } from "axios";
 import { useToast } from "../../../components/ui/use-toast";
 
 interface CadastrarLoteProps {
-  idSa: string
-  fetchLotes: () => Promise<void>
-  isOpen: boolean
-  setIsOpen: (isOpen: boolean) => void
+  idSa: string;
+  fetchLotes: () => Promise<void>;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIsOpen }) => {
+const CadastrarLote: FC<CadastrarLoteProps> = ({
+  idSa,
+  fetchLotes,
+  isOpen,
+  setIsOpen,
+}) => {
   const { toast } = useToast();
 
   const loteSchema = z.object({
@@ -32,8 +55,8 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
     dataEntrada: z.date(),
     dataValidade: z.date(),
     descricao: z.string(),
-    quantidade: z.string()
-  })
+    quantidade: z.string(),
+  });
 
   const form = useForm<z.infer<typeof loteSchema>>({
     resolver: zodResolver(loteSchema),
@@ -43,18 +66,24 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
       dataEntrada: undefined,
       dataValidade: undefined,
       descricao: "",
-      quantidade: ""
-    }
-  })
+      quantidade: "",
+    },
+  });
 
   const cadastrar = async (data: z.infer<typeof loteSchema>) => {
     try {
       const yearEntrada = data.dataEntrada.getFullYear();
-      const monthEntrada = String(data.dataEntrada.getMonth() + 1).padStart(2, "0");
+      const monthEntrada = String(data.dataEntrada.getMonth() + 1).padStart(
+        2,
+        "0"
+      );
       const dayEntrada = String(data.dataEntrada.getDate()).padStart(2, "0");
 
       const yearValidade = data.dataValidade.getFullYear();
-      const monthValidade = String(data.dataValidade.getMonth() + 1).padStart(2, "0");
+      const monthValidade = String(data.dataValidade.getMonth() + 1).padStart(
+        2,
+        "0"
+      );
       const dayValidade = String(data.dataValidade.getDate()).padStart(2, "0");
 
       const lote: ILote = {
@@ -101,7 +130,7 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
       });
 
       fetchLotes();
-      setIsOpen(false)
+      setIsOpen(false);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({
@@ -120,12 +149,18 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Cadastrar novo lote</DialogTitle>
-          <DialogDescription>Informe os dados de entrada do novo lote de amostra e sua solicitação de análise</DialogDescription>
+          <DialogDescription>
+            Informe os dados de entrada do novo lote de amostra e sua
+            solicitação de análise
+          </DialogDescription>
         </DialogHeader>
 
         <div className="py-4">
           <Form {...form}>
-            <form className="grid grid-cols-2 gap-8 h-fit" onSubmit={form.handleSubmit(cadastrar)}>
+            <form
+              className="grid grid-cols-2 gap-8 h-fit"
+              onSubmit={form.handleSubmit(cadastrar)}
+            >
               <FormField
                 control={form.control}
                 name="amostra"
@@ -137,7 +172,8 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )} />
+                )}
+              />
 
               <FormField
                 control={form.control}
@@ -150,7 +186,8 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )} />
+                )}
+              />
 
               <FormField
                 control={form.control}
@@ -255,7 +292,7 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
                 name="descricao"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descrição do Projeto</FormLabel>
+                    <FormLabel>Detalhes de entrada do lote</FormLabel>
                     <FormControl>
                       <Textarea rows={7} {...field} />
                     </FormControl>
@@ -264,13 +301,15 @@ const CadastrarLote: FC<CadastrarLoteProps> = ({ idSa, fetchLotes, isOpen, setIs
                 )}
               />
 
-              <Button type="submit" className="col-span-2">Cadastrar</Button>
+              <Button type="submit" className="col-span-2">
+                Cadastrar
+              </Button>
             </form>
           </Form>
         </div>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 export default CadastrarLote;

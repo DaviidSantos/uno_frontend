@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { date, z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../../components/ui/dialog";
-import { Plus } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -26,6 +26,11 @@ import { Button } from "../../../components/ui/button";
 import { Textarea } from "../../../components/ui/textarea";
 import axios, { AxiosError } from "axios";
 import { useToast } from "../../../components/ui/use-toast";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
+import { cn } from "../../../lib/utils";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
+import { Calendar } from "../../../components/ui/calendar";
 
 interface CadastrarReagenteProps {
   nomeEstoque: string;
@@ -44,6 +49,7 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
 
   const reagenteSchema = z.object({
     nome: z.string(),
+    dataValidade: z.date(),
     fornecedor: z.string(),
     descricao: z.string(),
     unidade: z.string(),
@@ -54,6 +60,7 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
     resolver: zodResolver(reagenteSchema),
     defaultValues: {
       nome: "",
+      dataValidade: undefined,
       fornecedor: "",
       descricao: "",
       unidade: "",
@@ -63,9 +70,17 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
 
   const cadastrar = async (data: z.infer<typeof reagenteSchema>) => {
     try {
+      const yearValidade = data.dataValidade.getFullYear();
+      const monthValidade = String(data.dataValidade.getMonth() + 1).padStart(
+        2,
+        "0"
+      );
+      const dayValidade = String(data.dataValidade.getDate()).padStart(2, "0");
+
       const reagente: IReagente = {
         id: "",
         nome: data.nome,
+        dataValidade: `${yearValidade}-${monthValidade}-${dayValidade}`,
         fornecedor: data.fornecedor,
         descricao: data.descricao,
         unidade: data.unidade,
@@ -73,6 +88,16 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
         estoque: {
           id: "",
           nome: nomeEstoque,
+          solicitante: {
+            id: "",
+            cnpj: "",
+            nome: "",
+            telefone: "",
+            email: "",
+            endereco: "",
+            cidade: "",
+            estado: "",
+          },
         },
       };
 
@@ -83,6 +108,7 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
 
       form.reset({
         nome: "",
+        dataValidade: undefined,
         fornecedor: "",
         descricao: "",
         unidade: "",
@@ -133,6 +159,46 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
                     <FormLabel>Reagente</FormLabel>
                     <FormControl>
                       <Input placeholder="Nome do reagente" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="dataValidade"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Data de Validade</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "justify-start text-left font-normal flex w-[215px]",
+                              !date && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Data de Validade</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            locale={ptBR}
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

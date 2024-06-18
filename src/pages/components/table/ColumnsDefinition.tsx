@@ -227,7 +227,6 @@ export const analiseTableColumns: ColumnDef<IAnalise>[] = [
       );
     },
   },
-
   {
     accessorKey: "resultado",
     header: "Resultado",
@@ -238,6 +237,34 @@ export const analiseTableColumns: ColumnDef<IAnalise>[] = [
         <p>
           {analise.resultado} {analise.unidade}
         </p>
+      );
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const analise = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Abrir menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="px-2 py-2">
+              <Link
+                to={`/analise/${analise.id}`}
+                className="flex items-center gap-2 text-zinc-600 hover:text-zinc-800"
+              >
+                <Eye className="h-4 w-4" />
+                <span className="text-xs font-bold">Ver mais</span>
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },
@@ -355,5 +382,20 @@ export const reagenteTableColumns: ColumnDef<IReagente>[] = [
         </DropdownMenu>
       );
     },
+  },
+];
+
+export const reagenteAnaliseTableColumns: ColumnDef<IReagenteAnalise>[] = [
+  {
+    accessorKey: "analise",
+    header: "Id da análise",
+  },
+  {
+    accessorKey: "reagente",
+    header: "Id do reagente",
+  },
+  {
+    accessorKey: "quantidade",
+    header: "Quantidade utilizada",
   },
 ];
