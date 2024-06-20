@@ -30,11 +30,6 @@ const DetalhesLote = () => {
     const { data } = await axios.get<IAnalise[]>(
       `https://uno-api-pdre.onrender.com/api/v1/analise/${idLote}`
     );
-    console.log(
-      await axios.get<IAnalise[]>(
-        `https://uno-api-pdre.onrender.com/api/v1/analise/${idLote}`
-      )
-    );
 
     setAnalises(data);
   };

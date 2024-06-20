@@ -11,12 +11,17 @@ import CadastrarEstoque from "../pages/estoque/CadastrarEstoque";
 import ListarEstoques from "../pages/estoque/ListarEstoques";
 import DetalhesEstoque from "../pages/estoque/DetalhesEstoque";
 import DetalhesAnalise from "../pages/analise/DetalhesAnalise";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "",
+        element: <Dashboard />,
+      },
       {
         path: "/solicitante/cadastrar",
         element: <CadastrarSolicitante />,
