@@ -224,7 +224,7 @@ const CadastrarReagente: FC<CadastrarReagenteProps> = ({
                 name="quantidade"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Qauntidade</FormLabel>
+                    <FormLabel>Quantidade</FormLabel>
                     <FormControl>
                       <Input placeholder="Quantidade de entrada" {...field} />
                     </FormControl>

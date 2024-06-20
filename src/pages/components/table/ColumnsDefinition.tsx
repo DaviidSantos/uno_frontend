@@ -9,7 +9,6 @@ import {
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { Link } from "react-router-dom";
 import { parseCnpj, parseIdSaToUnifiedFormat } from "../../../lib/utils";
-
 export const solicitanteTableColumns: ColumnDef<ISolicitante>[] = [
   {
     accessorKey: "cnpj",
@@ -355,44 +354,21 @@ export const reagenteTableColumns: ColumnDef<IReagente>[] = [
       );
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const estoque = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Abrir menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem className="px-2 py-2">
-              <Link
-                to={`/estoque/${estoque.nome}`}
-                className="flex items-center gap-2 text-zinc-600 hover:text-zinc-800"
-              >
-                <Eye className="h-4 w-4" />
-                <span className="text-xs font-bold">Ver mais</span>
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
 ];
 
 export const reagenteAnaliseTableColumns: ColumnDef<IReagenteAnalise>[] = [
   {
-    accessorKey: "analise",
+    accessorKey: "reagente_id",
     header: "Id da análise",
   },
   {
-    accessorKey: "reagente",
+    accessorKey: "reagente_id",
     header: "Id do reagente",
+    cell: ({ row }) => {
+      const reagente = row.original;
+
+      return <p>{reagente.reagente_id}</p>;
+    },
   },
   {
     accessorKey: "quantidade",

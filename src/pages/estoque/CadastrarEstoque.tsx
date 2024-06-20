@@ -119,7 +119,7 @@ const CadastrarEstoque = () => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Selecione o solicitante do projeto" />
+                            <SelectValue placeholder="Selecione o solicitante do estoque" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>

@@ -1,7 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios, { AxiosError } from "axios";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useToast } from "../../../components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -19,12 +21,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
-
-import { Button } from "../../../components/ui/button";
-
-import axios, { AxiosError } from "axios";
-import { useToast } from "../../../components/ui/use-toast";
 import {
   Select,
   SelectContent,
@@ -32,31 +28,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
+import { Input } from "../../../components/ui/input";
+import { Button } from "../../../components/ui/button";
 
 interface CadastrarUsoReagenteProps {
-  idAnalise: string;
-  idEstoque: string;
+  analiseId: string;
   isOpen: boolean;
-  fetchReagentesAnalise: () => Promise<void>;
   setIsOpen: (isOpen: boolean) => void;
+  fetchReagenteAnalise: () => Promise<void>;
 }
 
 const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
-  idAnalise,
-  // idEstoque,
+  analiseId,
   isOpen,
-  fetchReagentesAnalise,
   setIsOpen,
+  fetchReagenteAnalise,
 }) => {
-  // const [reagentes, setReagentes] = useState<IReagente[]>();
-  const [estoques, setEstoques] = useState<IEstoque[]>();
   const { toast } = useToast();
+  const [estoques, setEstoques] = useState<IEstoque[]>();
+  const [reagentes, setReagentes] = useState<IReagente[]>();
+  const [estoqueSelecionado, setEstoqueSelecionado] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
-    fetchEstoque();
+    fetchEstoques();
   }, []);
 
-  const fetchEstoque = async () => {
+  useEffect(() => {
+    fetchReagentes();
+  }, [estoqueSelecionado]);
+
+  const fetchEstoques = async () => {
     const { data } = await axios.get<IEstoque[]>(
       `https://uno-api-pdre.onrender.com/api/v1/estoque`
     );
@@ -64,35 +67,34 @@ const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
     setEstoques(data);
   };
 
-  // const fetchReagentes = async () => {
-  //   const { data } = await axios.get<IReagente[]>(
-  //     `https://uno-api-pdre.onrender.com/api/v1/reagente?estoque=${idEstoque}`
-  //   );
+  const fetchReagentes = async () => {
+    if (estoqueSelecionado) {
+      const { data } = await axios.get<IReagente[]>(
+        `https://uno-api-pdre.onrender.com/api/v1/reagente?estoque=${estoqueSelecionado}`
+      );
 
-  //   setReagentes(data);
-  // };
+      setReagentes(data);
+    }
+  };
 
-  const reagenteAnaliseSchema = z.object({
-    estoque_id: z.string(),
-    analise_id: z.string(),
+  const usoReagenteSchema = z.object({
     reagente_id: z.string(),
     quantidade: z.string(),
   });
 
-  const form = useForm<z.infer<typeof reagenteAnaliseSchema>>({
-    resolver: zodResolver(reagenteAnaliseSchema),
+  const form = useForm<z.infer<typeof usoReagenteSchema>>({
+    resolver: zodResolver(usoReagenteSchema),
     defaultValues: {
-      estoque_id: "",
-      analise_id: idAnalise,
       reagente_id: "",
       quantidade: "",
     },
   });
 
-  const cadastrar = async (data: z.infer<typeof reagenteAnaliseSchema>) => {
+  const cadastrar = async (data: z.infer<typeof usoReagenteSchema>) => {
+    console.log(data);
     try {
       const reagenteAnalise: IReagenteAnalise = {
-        analise_id: data.analise_id,
+        analise_id: analiseId,
         reagente_id: data.reagente_id,
         quantidade: Number(data.quantidade),
       };
@@ -103,18 +105,16 @@ const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
       );
 
       form.reset({
-        estoque_id: "",
-        analise_id: "",
         reagente_id: "",
         quantidade: "",
       });
 
       toast({
-        title: "Informe de reagente utilizado efetuado com sucesso!",
+        title: "Informe de reagente utilizado efetuado com sucesso",
         variant: "success",
       });
 
-      fetchReagentesAnalise();
+      fetchReagenteAnalise();
       setIsOpen(false);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -127,17 +127,17 @@ const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
   };
 
   return (
-    // reagentes &&
     estoques && (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger onClick={() => setIsOpen(true)}>
           <Plus className="text-zinc-800 mt-2" />
         </DialogTrigger>
+
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Cadastrar novo reagente</DialogTitle>
+            <DialogTitle>Informe o uso de reagente</DialogTitle>
             <DialogDescription>
-              Informe os dados de entrada do novo reagente
+              Informe o uso de um reagente para a análise efetuada
             </DialogDescription>
           </DialogHeader>
 
@@ -147,12 +147,34 @@ const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
                 className="grid grid-cols-2 gap-8 h-fit"
                 onSubmit={form.handleSubmit(cadastrar)}
               >
+                <div>
+                  <FormItem>
+                    <FormLabel>Estoque</FormLabel>
+                    <Select
+                      onValueChange={(nome) => setEstoqueSelecionado(nome)}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione o estoque utilizado" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {estoques.map((estoque) => (
+                          <SelectItem value={estoque.nome}>
+                            {estoque.nome}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                </div>
+
                 <FormField
                   control={form.control}
                   name="reagente_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Estoque</FormLabel>
+                      <FormLabel>Reagente</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
@@ -160,13 +182,13 @@ const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Selecione o estoque do reagente" />
+                              <SelectValue placeholder="Selecione o reagente utilizado" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {estoques.map((estoque) => (
-                              <SelectItem value={estoque.id} key={estoque.id}>
-                                {estoque.nome}
+                            {reagentes?.map((reagente) => (
+                              <SelectItem value={reagente.id}>
+                                {reagente.nome}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -177,19 +199,25 @@ const CadastrarUsoReagente: FC<CadastrarUsoReagenteProps> = ({
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="quantidade"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Quantidade utilizada</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Quantidade" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="col-span-2">
+                  <FormField
+                    control={form.control}
+                    name="quantidade"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Quantidade</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Quantidade utilizada"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <Button type="submit" className="col-span-2">
                   Cadastrar
                 </Button>

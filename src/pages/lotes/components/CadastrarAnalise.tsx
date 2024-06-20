@@ -137,7 +137,7 @@ const CadastrarAnalise: FC<CadastrarAnaliseProps> = ({
       });
 
       toast({
-        title: "Lote cadastrado com sucesso",
+        title: "Análise cadastrada com sucesso",
         variant: "success",
       });
 
