@@ -12,6 +12,7 @@ import ListarEstoques from "../pages/estoque/ListarEstoques";
 import DetalhesEstoque from "../pages/estoque/DetalhesEstoque";
 import DetalhesAnalise from "../pages/analise/DetalhesAnalise";
 import Dashboard from "../pages/dashboard/Dashboard";
+import RelatorioContainer from "../pages/components/relatorio/RelatorioContainer";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
       {
         path: "analise/:id",
         element: <DetalhesAnalise />,
+      },
+      {
+        path: "/relatorio/:idSa",
+        element: <RelatorioContainer />,
       },
     ],
   },

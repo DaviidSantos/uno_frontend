@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import Heading from "../../components/Heading";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { parseIdSaToOriginalFormat } from "../../lib/utils";
+import { Link, useParams } from "react-router-dom";
+import { cn, parseIdSaToOriginalFormat } from "../../lib/utils";
 import { Label } from "../../components/ui/label";
 import { DataTable } from "../components/table/DataTable";
 import { loteTableColumns } from "../components/table/ColumnsDefinition";
 import CadastrarLote from "./components/CadastrarLote";
 import FinalizarSolicitacaoAnalise from "./components/FinalizarSolicitacaoAnalise";
+import { buttonVariants } from "../../components/ui/button";
 
 const DetalhesSolicitacaoAnalise = () => {
   const [solicitacaoAnalise, setSolicitacaoAnalise] =
@@ -125,12 +126,23 @@ const DetalhesSolicitacaoAnalise = () => {
               </p>
             </div>
           </div>
+
           <FinalizarSolicitacaoAnalise
             isOpen={isFinalizarDialogOpen}
             setIsOpen={setIsFinalizarDialogOpen}
             solicitacaoAnalise={solicitacaoAnalise}
             fetchSolicitacaoAnalise={fetchSolicitacaoAnalise}
           />
+
+          <Link
+            to={`/relatorio/${idSa}`}
+            className={cn(
+              buttonVariants({ variant: "default", size: "sm" }),
+              "mt-8"
+            )}
+          >
+            Gerar Relatório
+          </Link>
         </div>
         <div className="flex items-center justify-between">
           <Heading title="Lotes" />
